@@ -33,13 +33,15 @@ func main() {
 	*/
 
 	e := echo.New()
-	e.Static("/static", "assets")
-	e.File("/", "assets/index.html")
+	e.Static("/", "dist")
+	e.File("/", "dist/index.html")
 	e.GET("/user", GetUser)
 	e.POST("/test", PostUser)
-	e.GET("/get", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	/*
+		e.GET("/get", func(c echo.Context) error {
+			return c.String(http.StatusOK, "Hello, World!")
+		})
+	*/
 	e.Logger.Fatal(e.Start(":1323"))
 
 	defer conn.GetDB().Close()
