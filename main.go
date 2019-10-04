@@ -34,7 +34,7 @@ func main() {
 
 	e := echo.New()
 	e.Static("/static", "assets")
-	e.File("/", "static/index.html")
+	e.File("/", "assets/index.html")
 	e.GET("/user", GetUser)
 	e.POST("/test", PostUser)
 	e.GET("/get", func(c echo.Context) error {
