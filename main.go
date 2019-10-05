@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	conn "github.com/yoseplee/go-echo-vue/dbConnection"
 )
 
@@ -33,15 +34,17 @@ func main() {
 	*/
 
 	e := echo.New()
+	e.Use(middleware.CORS()) //for vue-cli dev server
+
 	e.Static("/", "dist")
 	e.File("/", "dist/index.html")
+
 	e.GET("/user", GetUser)
 	e.POST("/test", PostUser)
-	/*
-		e.GET("/get", func(c echo.Context) error {
-			return c.String(http.StatusOK, "Hello, World!")
-		})
-	*/
+	e.GET("/api", func(c echo.Context) error {
+		u := user{ID: 3, Name: "Lee"}
+		return c.JSON(http.StatusCreated, u)
+	})
 	e.Logger.Fatal(e.Start(":1323"))
 
 	defer conn.GetDB().Close()
